@@ -1,0 +1,118 @@
+.model small
+.stack 100h
+.data
+main_menu db "*******"BASIC CALCULATOR"*******",0dh,0ah
+db "-------------------------------",0dh,0ah
+db "  **Enter 1 for Addition** ",0dh,0ah
+db "  **Enter 2 for Subtraction** ",0dh,0ah
+db "-------------------------------",0dh,0ah
+MSG1 db 0dh,0ah,"Enter your Choice:",0dh,0ah,'$'
+MSG2 db 0dh,0ah,"Enter First number:",0dh,0ah,'$'
+MSG3 db 0dh,0ah,"Enter Second number:",0dh,0ah,'$'
+MSG4 db 0dh,0ah,'$'
+MSG5 db 0dh,0ah,"Your Result is:",0dh,0ah,'$'
+choice db ?
+no1 db ?
+no11 db ?
+no22 db ?
+no2 db ?
+result db ?
+
+.code
+Main proc
+    mov ax,@data
+    mov ds,ax
+    Start:
+    mov ah,09h
+    mov dx,offset main_menu
+    int 21h
+    
+    
+    mov ah,01h
+    int 21h
+    
+    mov choice,al
+    
+    cmp choice,'1'
+    JE addr
+    cmp choice,'2'
+    JE subtr
+  
+    addr:
+    
+    mov ah,09h
+    mov dx,offset MSG2
+    int 21h
+    mov ah,01h
+    int 21h
+    mov no1,al
+    mov ah,09h
+    mov dx,offset MSG3
+    int 21h
+    mov ah,01h
+    int 21h
+    mov no2,al
+    mov ah,09h
+    mov dx,offset MSG4
+    int 21h
+    mov dx,offset MSG5
+    int 21h
+    
+    mov al,no2
+    mov bl,no1
+    add al,bl
+    aaa
+    or ax,3030h
+    mov ah,0eh
+    int 10h
+    mov ah,4ch
+    int 21h  
+    
+    subtr:
+    inpt:
+    mov ah,09h
+    mov dx,offset MSG2
+    int 21h
+    mov ah,01h
+    int 21h
+    mov no11,al
+    mov ah,09h
+    mov dx,offset MSG3
+    int 21h
+    mov ah,01h
+    int 21h
+    mov no22,al
+    
+    mov ah,09h
+    mov dx,offset MSG4
+    int 21h
+    mov dx,offset MSG5
+    int 21h
+    
+    mov al,no11
+    mov bl,no22
+    
+    cmp al,bl
+    JNG inpt
+    
+    sub al,bl
+    aaa
+    or ax,3030h
+    mov ah,0eh
+    int 10h
+    mov ah,4ch
+    int 21h
+    
+    EX:
+    mov ah,4ch
+    int 21h
+    RE: 
+    jmp Start 
+    
+    mov ah,4ch
+    int 21h
+    
+    Main endp
+end main
+
+
