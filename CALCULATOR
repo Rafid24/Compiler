@@ -1,6 +1,11 @@
-.model small
-.stack 100h
-.data
+;http://cprogrammingfun.blogspot.com/2014/04/write-program-to-subtract-two-number-in.html (subtract)
+;https://www.scribd.com/doc/135495243/Basic-Assembly-Language-Calculator (structure)
+;https://www.youtube.com/watch?v=kFyg30rTQpI&t=188s(add 2 number)
+;https://www.youtube.com/watch?v=3vlurk4Rii4&t=70s (multiple digit)
+
+.MODEL SAMLL
+.STACK 200H
+.DATA
 main_menu db "*******"BASIC CALCULATOR"*******",0dh,0ah
 db "-------------------------------",0dh,0ah
 db "  **Enter 1 for Addition** ",0dh,0ah
@@ -9,108 +14,97 @@ db "-------------------------------",0dh,0ah
 MSG1 db 0dh,0ah,"Enter your Choice:",0dh,0ah,'$'
 MSG2 db 0dh,0ah,"Enter First number:",0dh,0ah,'$'
 MSG3 db 0dh,0ah,"Enter Second number:",0dh,0ah,'$'
-MSG4 db 0dh,0ah,'$'
-MSG5 db 0dh,0ah,"Your Result is:",0dh,0ah,'$'
+MSG4 db '$'
+MSG5 db 0dh,0ah,"Your Result is:"
+MSG6 db ?, '$'
 choice db ?
-no1 db ?
 no11 db ?
 no22 db ?
-no2 db ?
-result db ?
 
-.code
+.CODE
 Main proc
-    mov ax,@data
-    mov ds,ax
+    MOV AX,@data
+    MOV DS,AX
     Start:
-    mov ah,09h
-    mov dx,offset main_menu
-    int 21h
+    LEA DX,main_menu
+    MOV AH,9H
+    INT 21H
     
+    MOV AH,1H
+    INT 21H
     
-    mov ah,01h
-    int 21h
+    MOV choice,AL
     
-    mov choice,al
-    
-    cmp choice,'1'
+    CMP choice,'1'
     JE addr
-    cmp choice,'2'
+    CMP choice,'2'
     JE subtr
   
     addr:
+    LEA DX,msg2      ;1st input
+    MOV AH,9
+    INT 21H
     
-    mov ah,09h
-    mov dx,offset MSG2
-    int 21h
-    mov ah,01h
-    int 21h
-    mov no1,al
-    mov ah,09h
-    mov dx,offset MSG3
-    int 21h
-    mov ah,01h
-    int 21h
-    mov no2,al
-    mov ah,09h
-    mov dx,offset MSG4
-    int 21h
-    mov dx,offset MSG5
-    int 21h
+    MOV AH,1H
+    INT 21H
     
-    mov al,no2
-    mov bl,no1
-    add al,bl
-    aaa
-    or ax,3030h
-    mov ah,0eh
-    int 10h
-    mov ah,4ch
-    int 21h  
+     
+    MOV CH,AL
+    
+    LEA DX,msg3      ;2nd input
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1H
+    INT 21H 
+    
+    ADD AL,CH
+    SUB AL,30H
+    MOV msg6,AL
+    
+    LEA DX,msg5
+    MOV AH,9
+    INT 21H
+    
+    
+    MOV AH,4CH
+    INT 21H  
     
     subtr:
     inpt:
-    mov ah,09h
-    mov dx,offset MSG2
-    int 21h
-    mov ah,01h
-    int 21h
-    mov no11,al
-    mov ah,09h
-    mov dx,offset MSG3
-    int 21h
-    mov ah,01h
-    int 21h
-    mov no22,al
-    
-    mov ah,09h
-    mov dx,offset MSG4
-    int 21h
-    mov dx,offset MSG5
-    int 21h
-    
-    mov al,no11
-    mov bl,no22
-    
-    cmp al,bl
-    JNG inpt
-    
-    sub al,bl
-    aaa
-    or ax,3030h
-    mov ah,0eh
-    int 10h
-    mov ah,4ch
-    int 21h
-    
-    EX:
-    mov ah,4ch
-    int 21h
-    RE: 
-    jmp Start 
-    
-    mov ah,4ch
-    int 21h
+     
+    MOV AH,9
+    LEA DX,msg2
+    INT 21H
+
+    MOV AH,1
+    INT 21H
+    SUB AL,30H
+    MOV no11,AL
+
+    MOV AH,9
+    LEA DX,msg3
+    INT 21H
+
+    MOV AH,1
+    INT 21H
+    SUB AL,30H
+    MOV no22,AL
+
+    MOV AH,9
+    LEA DX,msg5
+    INT 21H
+
+    MOV AL,no11
+    SUB AL,no22
+    ADD AL,30H
+
+    MOV AH,2
+    MOV DL,AL
+    INT 21H
+
+    MOV AH,4CH
+    INT 21H
     
     Main endp
 end main
