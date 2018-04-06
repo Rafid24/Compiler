@@ -1,0 +1,94 @@
+//#include<stdlib.h>
+#include<bits/stdc++.h>
+using namespace std;
+
+struct h_table{
+     int value;
+     int key;
+     struct h_table *next;
+};
+
+void displaY(struct h_table[], int sizE);
+void searcH(struct h_table[], int sizE);
+void inserT(struct h_table[], int sizE);
+
+int main()
+{
+    int sizE,i,j,temp;
+    cout<<"Size of Table::";
+    cin>>sizE;
+    struct h_table hash_table[sizE];
+    while(j<sizE)
+    {
+        hash_table[j].next=NULL;
+        j++;
+    }
+    j=0;
+    while(j<sizE)
+    {
+        hash_table[j].value=-1;
+        j++;
+    }
+    cout<<"Enter Elements::";
+    for(i=0;i<sizE;i++)
+    {
+        cin>>temp;
+        hash_table[temp%sizE].value=temp;
+        hash_table[temp%sizE].key=temp%sizE;
+    }
+    cout<<endl;
+
+    displaY(hash_table,sizE);
+    searcH(hash_table,sizE);
+    inserT(hash_table,sizE);
+    displaY(hash_table,sizE);
+
+    int a=0;
+}
+
+void inserT(struct h_table ar[], int sizE)
+{
+    int inp;
+    cout<<"Enter Number::";
+    cin>>inp;
+    if(ar[inp%sizE].value==-1)
+        ar[inp%sizE].value=inp;
+    else
+    {
+        struct h_table *chain;
+        chain=(struct h_table *) malloc(sizeof(struct h_table *));
+        chain->value= inp;
+        chain->next=NULL;
+        ar[inp%sizE].next=chain;
+    }
+
+}
+void displaY(struct h_table ar[], int sizE)
+{
+    int i;
+    cout<<"KEY\tVALUE"<<endl;
+    for(i=0;i<sizE;i++)
+    {
+        cout<<ar[i].key<<"\t"<<ar[i].value<<endl;
+        struct h_table *ptr;
+        ptr = ar[i].next;
+        while(ptr!=NULL)
+        {
+            cout<<ptr->value<<"\t";
+            ptr= ptr->next;
+        }
+        cout<<endl;
+    }
+}
+
+void searcH(struct h_table ar[], int sizE)
+{
+    int se;
+    cout<<"Searched Element::";
+    cin>>se;
+    if(ar[se%sizE].value==se)
+        cout<<"Element is at "<<se%sizE<<endl;
+    else
+        cout<<"Not Found";
+
+}
