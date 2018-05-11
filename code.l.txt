@@ -1,0 +1,80 @@
+%{
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  vector <string> v[100];
+  string str;
+  while(cin >> str)
+  {
+    int sum = 0;
+    for(int i = 0; i < str.size(); i++)
+    {
+      sum = sum + str[i];
+    }
+    int m = sum % 20;
+    v[m].push_back(str);
+  }
+  for(int i = 0; i < 20; i ++)
+  {
+    printf("%d -> ", i);
+    for(int j = 0; j < v[i].size(); j++)
+    {
+      cout << v[i][j] << " ";
+    }
+    printf("\n");
+  }
+
+  return 0;
+}
+
+
+%}
+
+RELOP		< | <= | > | >= | = | <>
+DELIM		[\t\n\r]
+WS		{delim}+
+NEWLINE		\n
+UNDERSCORE 	_
+LETTER		[A-Za-z]
+DIGIT		[0-9]
+DIGITS		digit+
+IDENTIFIER  	(letter)(letter | digit | underscore)*
+REAL NUMBER	digits(.digits)?(Ee[+-]?digits)?
+INTEGER		(digit)+
+
+
+BEGIN		begin
+END		end
+WHILE		while
+FOR		for
+IF		if
+ELSE		else
+DO		do
+THEN 		then
+	
+
+
+SEMICOLON	;
+COMMA		,
+DOT		.
+COLON		:
+ASSIGOP		:= | ==
+OR		|
+NOT 		!
+ADD		+
+SUB		-
+MULT		*
+DIV		/
+MOD		%
+LEFT BRACKET	( | { | [ 
+RIGHT BRACKET	) | } | ] 	
+
+
+
+%%
+
+
+%%

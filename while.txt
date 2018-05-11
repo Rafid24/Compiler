@@ -1,0 +1,5 @@
+while number>0 do
+begin
+   sum := sum + number;
+   number := number - 2;
+end;
