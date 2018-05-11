@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  vector <string> v[100];
+  string str;
+  while(cin >> str)
+  {
+    int sum = 0;
+    for(int i = 0; i < str.size(); i++)
+    {
+      sum = sum + str[i];
+    }
+    int m = sum % 5;
+    v[m].push_back(str);
+  }
+  for(int i = 0; i < 5; i ++)
+  {
+    printf("%d -> ", i);
+    for(int j = 0; j < v[i].size(); j++)
+    {
+      cout << v[i][j] << " ";
+    }
+    printf("\n");
+  }
+
+  return 0;
+}
