@@ -1,13 +1,12 @@
 %{
-
-#include <bits/stdc++.h>
+#include<iostream>
 using namespace std;
 
 int main()
 {
   vector <string> v[100];
   string str;
-  while(cin >> str)
+  while(cin >> str && str!="=")
   {
     int sum = 0;
     for(int i = 0; i < str.size(); i++)
@@ -15,6 +14,8 @@ int main()
       sum = sum + str[i];
     }
     int m = sum % 20;
+    if(count(v[m].begin(), v[m].end(), str) > 0)
+      continue;
     v[m].push_back(str);
   }
   for(int i = 0; i < 20; i ++)
@@ -30,51 +31,47 @@ int main()
   return 0;
 }
 
-
+FILE *f1;
+FILE *f2;
 %}
 
-RELOP		< | <= | > | >= | = | <>
-DELIM		[\t\n\r]
-WS		{delim}+
-NEWLINE		\n
-UNDERSCORE 	_
-LETTER		[A-Za-z]
-DIGIT		[0-9]
-DIGITS		digit+
-IDENTIFIER  	(letter)(letter | digit | underscore)*
-REAL NUMBER	digits(.digits)?(Ee[+-]?digits)?
-INTEGER		(digit)+
+%option noyywrap
 
-
-BEGIN		begin
-END		end
-WHILE		while
-FOR		for
-IF		if
-ELSE		else
-DO		do
-THEN 		then
-	
-
-
-SEMICOLON	;
-COMMA		,
-DOT		.
-COLON		:
-ASSIGOP		:= | ==
-OR		|
-NOT 		!
-ADD		+
-SUB		-
-MULT		*
-DIV		/
-MOD		%
-LEFT BRACKET	( | { | [ 
-RIGHT BRACKET	) | } | ] 	
-
-
+RELOP		(<)|(<=)|(>)|(>=)|(=)|(<>)
+NEWLINE		[\n]
+KEYWORD		(program)|(then)|(real)|(if)|(do)|(var)|(not)|(while)|(of)|(end)|(function)|(array)|(begin)|(procedure)|		(write)|(else)|(integer)
+COLON		(:)
+SEMICOLON	(;)
+COMMA	(,)
+UNDERSCORE 	(_)
+LETTER		[A-Za-z]*
+DIGIT		[0-9]*
+PAREN		[(]|[)]
+MULOP 		[*]|[/]|[div]|[mod]|[and]
+ID		[LETTER][LETTER|DIGIT|UNDERSCORE]* 
+ADDOP	  	[+]|[-]|[or]
 
 %%
 
+{RELOP} 	{     fprintf(f1," < RELOP, %s>", yytext);     }
+{KEYWORD} 	{     fprintf(f1," < KEYWORD, %s>", yytext);     }
+{COLON} 	{     fprintf(f1," < COLON, %s>", yytext);     }
+{SEMICOLON} 	{     fprintf(f1," < SEMICOLON, %s>", yytext);     }
+{COMMA} 	{     fprintf(f1," < COMMA, %s>", yytext);     }
+{UNDERSCORE}    {     fprintf(f1," < UNDERSCORE, %s>", yytext);     }
+{DIGIT}         {     fprintf(f1," < DIGIT, %s>", yytext);     }
+{LETTER}        {     fprintf(f1," < LETTER, %s>", yytext);     }
+{PAREN}         {     fprintf(f1," < PAREN, %s>", yytext);     }
+{MULOP}         {     fprintf(f1," < MULOP, %s>", yytext);     }
+{ADDOP}         {     fprintf(f1," < ADDOP, %s>", yytext);     }
+{ID}        	{     fprintf(f1," < ID, %s>", yytext);     }
 
 %%
+
+int main()
+{	
+	yyin=fopen("input.txt" , "r");
+	f1=fopen("token.txt" , "w");
+	f2=fopen("log.txt" , "w");
+	yylex();
+}
